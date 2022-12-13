@@ -108,6 +108,8 @@ namespace satellite_simulator
 		
 		M = _magnetorquers.cross(SpaceOperations::pos_ECI_to_magnet_field_ECI(_position_ECI));
 
+		// TODO: ADD GRAVITY GRADIENT MOMENTS
+
 		_angular_velocity = _angular_velocity +  (_I_inverse * (M - _angular_velocity.cross(_I * _angular_velocity)) * delta_time);
 	}
 
