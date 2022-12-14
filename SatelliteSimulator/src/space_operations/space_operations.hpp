@@ -12,7 +12,7 @@ namespace satellite_simulator
 		static sat_math::Matrix pos_ECI_to_magnet_field_ECI(const sat_math::Matrix &pos_ECI);
 
 	private:
-		static const unsigned int _G;
+		static const unsigned long int _G;
 
 	};
 }

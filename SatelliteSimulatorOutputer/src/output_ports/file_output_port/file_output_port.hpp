@@ -5,6 +5,7 @@
 #include <string>
 #include <fstream>
 #include <vector>
+#include <unordered_map>
 
 namespace satellite_simulator_data_outputer
 {
@@ -24,7 +25,7 @@ namespace satellite_simulator_data_outputer
 			const sat_math::Matrix& sun_dir_body);
 
 	private:
-		std::vector<std::ofstream> _output_files;
+		std::unordered_map<const char*, std::ofstream> _output_files;
 	};
 
 }

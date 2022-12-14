@@ -6,7 +6,7 @@ namespace satellite_simulator_data_outputer
 {
 	FileOutputPort::FileOutputPort(const std::string& directory)
 	{
-		
+		_output_files["position_ECI"] = std::ofstream(directory + "position_ECI.txt");
 	}
 
 	void FileOutputPort::output(
@@ -20,7 +20,7 @@ namespace satellite_simulator_data_outputer
 		const sat_math::Matrix& sun_dir_body
 	)
 	{
-		std::cout << position_ECI(0, 0) << "\n";
+		_output_files["position_ECI"] << position_ECI(0, 0) << " " << position_ECI(1, 0) << " " << position_ECI(2, 0) << '\n';
 	}
 
 }

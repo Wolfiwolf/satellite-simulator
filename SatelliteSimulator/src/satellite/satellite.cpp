@@ -2,6 +2,8 @@
 
 #include "../space_operations/space_operations.hpp"
 
+#include <iostream>
+
 namespace satellite_simulator
 {
 
@@ -84,13 +86,19 @@ namespace satellite_simulator
 
 		gravity_vector = gravity_vector.normalize();
 
-		gravity_vector = gravity_vector * SpaceOperations::get_gravity_force(_mass, _position_ECI.magnitude());
+		double r = _position_ECI.magnitude();
+
+		double g_force = SpaceOperations::get_gravity_force(_mass, r);
+
+		gravity_vector = gravity_vector * g_force;
 
 		forces = forces + gravity_vector;
 
 		sat_math::Matrix velocity_dot(3, 1);
 
 		velocity_dot = forces * (1 / _mass);
+
+		std::cout << velocity_dot(0, 0) << "\n";
 
 		_velocity_ECI = _velocity_ECI + (velocity_dot * delta_time);
 	}
