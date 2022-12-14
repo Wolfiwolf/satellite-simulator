@@ -10,36 +10,36 @@ namespace satellite_simulator
 		_mass = 4.0;
 
 		_I = sat_math::Matrix(3, 3);
-		_I(0, 0) = 1.0f;
-		_I(1, 1) = 1.0f;
-		_I(2, 2) = 1.0f;
+		_I(0, 0) = 1.0;
+		_I(1, 1) = 1.0;
+		_I(2, 2) = 1.0;
 
 		_I_inverse = sat_math::Matrix(3, 3);
-		_I_inverse(0, 0) = 1.0f;
-		_I_inverse(1, 1) = 1.0f;
-		_I_inverse(2, 2) = 1.0f;
+		_I_inverse(0, 0) = 1.0;
+		_I_inverse(1, 1) = 1.0;
+		_I_inverse(2, 2) = 1.0;
 
 
 		_position_ECI = sat_math::Matrix(3, 1);
-		_position_ECI(0, 0) = 0.0f;
-		_position_ECI(1, 0) = 0.0f;
-		_position_ECI(2, 0) = 0.0f;
+		_position_ECI(0, 0) = 12212000.0;
+		_position_ECI(1, 0) = 0.0;
+		_position_ECI(2, 0) = 0.0;
 
 		_attitude_ECI = sat_math::Matrix(4, 1);
-		_attitude_ECI(0, 0) = 1.0f;
-		_attitude_ECI(1, 0) = 0.0f;
-		_attitude_ECI(2, 0) = 0.0f;
-		_attitude_ECI(3, 0) = 0.0f;
+		_attitude_ECI(0, 0) = 1.0;
+		_attitude_ECI(1, 0) = 0.0;
+		_attitude_ECI(2, 0) = 0.0;
+		_attitude_ECI(3, 0) = 0.0;
 
 		_velocity_ECI = sat_math::Matrix(3, 1);
-		_velocity_ECI(0, 0) = 0.0f;
-		_velocity_ECI(1, 0) = 0.0f;
-		_velocity_ECI(2, 0) = 0.0f;
+		_velocity_ECI(0, 0) = 0.0;
+		_velocity_ECI(1, 0) = 5714.0;
+		_velocity_ECI(2, 0) = 0.0;
 
 		_angular_velocity = sat_math::Matrix(3, 1);
-		_angular_velocity(0, 0) = 0.0f;
-		_angular_velocity(1, 0) = 0.0f;
-		_angular_velocity(2, 0) = 0.0f;
+		_angular_velocity(0, 0) = 0.0;
+		_angular_velocity(1, 0) = 0.0;
+		_angular_velocity(2, 0) = 0.0;
 
 		_magnetorquers = sat_math::Matrix(3, 1);
 

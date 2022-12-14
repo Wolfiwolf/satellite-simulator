@@ -1,23 +1,27 @@
 #include <iostream>
 #include "satellite_math.hpp";
-#include "satellite_graphics_engine.hpp"
 #include "satellite/satellite.hpp"
+#include "satellite_simulator_data_outputer.hpp"
 
 int main() 
 {
-	satellite_graphics_engine::SatelliteGraphicsEngine sat_graphics_engine;
-
-
-	sat_graphics_engine.init();
-	sat_graphics_engine.start();
-	
-
 	satellite_simulator::Satellite satellite;
+	satellite_simulator_data_outputer::SatelliteSimulatorDataOutputer outputer;
+
+	sat_math::Matrix position_ECI(3, 1);
+	sat_math::Matrix  attitude_ECI(4, 1);
+	sat_math::Matrix  velocity_ECI(3, 1);
+	sat_math::Matrix  angular_velocity(3, 1);
+	sat_math::Matrix  magnet_field_ECI(3, 1);
+	sat_math::Matrix  magnet_field_body(3, 1);
+	sat_math::Matrix  sun_dir_ECI(3, 1);
+	sat_math::Matrix  sun_dir_body(3, 1);
+
 
 
 	double time = 0.0;
-	const double delta_time = 0.001;
-	while (!sat_graphics_engine.should_program_end())
+	const double delta_time = 0.01;
+	while (true)
 	{
 		bool is_ok = satellite.update_state(delta_time);
 
@@ -49,17 +53,16 @@ int main()
 		sat_math::Matrix pos = satellite.get_ECI_position();
 		sat_math::Matrix attitude = satellite.get_ECI_attitude();
 
-		sat_graphics_engine.set_satellite_state(
-			pos(0, 0), 
-			pos(1, 0), 
-			pos(2, 0), 
-			attitude(0, 0), 
-			attitude(1, 0), 
-			attitude(2, 0), 
-			attitude(3, 0)
+		outputer.output(
+			pos,
+			attitude_ECI,
+			velocity_ECI,
+			angular_velocity,
+			magnet_field_ECI,
+			magnet_field_body,
+			sun_dir_ECI,
+			sun_dir_body
 		);
-
-		sat_graphics_engine.update();
 
 		time += delta_time;
 	}
