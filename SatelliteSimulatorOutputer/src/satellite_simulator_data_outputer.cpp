@@ -7,7 +7,7 @@ namespace satellite_simulator_data_outputer
 
 	SatelliteSimulatorDataOutputer::SatelliteSimulatorDataOutputer()
 	{
-		_output_ports.emplace_back(new FileOutputPort());
+		_output_ports.emplace_back(new FileOutputPort("./"));
 	}
 
 	SatelliteSimulatorDataOutputer::~SatelliteSimulatorDataOutputer()
