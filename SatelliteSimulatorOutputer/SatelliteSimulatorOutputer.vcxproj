@@ -133,10 +133,12 @@
   <ItemGroup>
     <ClInclude Include="src\output_ports\file_output_port\file_output_port.hpp" />
     <ClInclude Include="src\output_ports\output_port.hpp" />
+    <ClInclude Include="src\output_ports\udp_output_port\udp_output_port.hpp" />
     <ClInclude Include="src\satellite_simulator_data_outputer.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\output_ports\file_output_port\file_output_port.cpp" />
+    <ClCompile Include="src\output_ports\udp_output_port\udp_output_port.cpp" />
     <ClCompile Include="src\satellite_simulator_data_outputer.cpp" />
   </ItemGroup>
   <ItemGroup>

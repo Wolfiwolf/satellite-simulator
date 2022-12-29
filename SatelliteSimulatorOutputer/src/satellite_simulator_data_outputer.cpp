@@ -1,13 +1,15 @@
 #include "satellite_simulator_data_outputer.hpp"
 #include "output_ports/file_output_port/file_output_port.hpp"
+#include "output_ports/udp_output_port/udp_output_port.hpp"
 
 
 namespace satellite_simulator_data_outputer
 {
 
-	SatelliteSimulatorDataOutputer::SatelliteSimulatorDataOutputer()
+	SatelliteSimulatorDataOutputer::SatelliteSimulatorDataOutputer(const std::string& output_directory, const std::string& ip_address, int port)
 	{
-		_output_ports.emplace_back(new FileOutputPort("./"));
+		_output_ports.emplace_back(new FileOutputPort(output_directory + '/'));
+		_output_ports.emplace_back(new UdpOutputPort(ip_address, port));
 	}
 
 	SatelliteSimulatorDataOutputer::~SatelliteSimulatorDataOutputer()

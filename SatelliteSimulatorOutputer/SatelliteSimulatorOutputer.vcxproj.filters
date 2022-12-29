@@ -24,12 +24,18 @@
     <ClInclude Include="src\output_ports\file_output_port\file_output_port.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\output_ports\udp_output_port\udp_output_port.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\satellite_simulator_data_outputer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\output_ports\file_output_port\file_output_port.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\output_ports\udp_output_port\udp_output_port.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

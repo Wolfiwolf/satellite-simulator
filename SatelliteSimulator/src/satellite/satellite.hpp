@@ -2,7 +2,7 @@
 
 #include "satellite_math.hpp"
 
-namespace satellite_simulator
+namespace satellite_simulator_engine
 {
 
 	class Satellite
@@ -11,12 +11,13 @@ namespace satellite_simulator
 		Satellite();
 		~Satellite();
 
-		bool update_state(const double& delta_time);
+		bool update_state(const double time_since_epoch, const double delta_time);
 		void set_magnetourquers(double x, double y, double z);
 
 
 		const sat_math::Matrix& get_ECI_position() const;
 		const sat_math::Matrix& get_ECI_attitude() const;
+		const sat_math::Matrix& get_angular_velocity() const;
 
 	private:
 		double _mass;
@@ -30,10 +31,10 @@ namespace satellite_simulator
 		sat_math::Matrix _magnetorquers;
 
 		
-		void _update_position(const double& delta_time);
-		void _update_velocity(const double& delta_time);
-		void _update_attitude(const double& delta_time);
-		void _update_angular_velocity(const double& delta_time);
+		void _update_position(const double delta_time);
+		void _update_velocity(const double time_since_epoch, const double delta_time);
+		void _update_attitude(const double delta_time);
+		void _update_angular_velocity(const double time_since_epoch, const double delta_time);
 	};
 
 }

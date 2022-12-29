@@ -3,10 +3,10 @@
 #include "satellite/satellite.hpp"
 #include "satellite_simulator_data_outputer.hpp"
 
-int main() 
+int main(int argc, char *argv[])
 {
-	satellite_simulator::Satellite satellite;
-	satellite_simulator_data_outputer::SatelliteSimulatorDataOutputer outputer;
+	satellite_simulator_engine::Satellite satellite;
+	satellite_simulator_data_outputer::SatelliteSimulatorDataOutputer outputer(argv[1], argv[2], std::stoi(argv[3]));
 
 	sat_math::Matrix position_ECI(3, 1);
 	sat_math::Matrix attitude_ECI(4, 1);
@@ -20,10 +20,10 @@ int main()
 
 
 	double time = 0.0;
-	const double delta_time = 0.1;
+	const double delta_time = 0.5;
 	while (true)
 	{
-		bool is_ok = satellite.update_state(delta_time);
+		bool is_ok = satellite.update_state(time, delta_time);
 
 		
 		if (!is_ok)
@@ -33,12 +33,12 @@ int main()
 			while (!is_ok)
 			{
 				double new_delta_time = delta_time / (double)delta_time_devider;
-				is_ok = satellite.update_state(new_delta_time);
+				is_ok = satellite.update_state(time, new_delta_time);
 				if (is_ok)
 				{
 					for (int i = 1; i < delta_time_devider; i++)
 					{
-						satellite.update_state(new_delta_time);
+						satellite.update_state(time, new_delta_time);
 					}
 					break;
 				}
@@ -50,11 +50,12 @@ int main()
 		}
 
 
-		sat_math::Matrix pos = satellite.get_ECI_position();
-		sat_math::Matrix attitude = satellite.get_ECI_attitude();
+		position_ECI = satellite.get_ECI_position();
+		attitude_ECI = satellite.get_ECI_attitude();
+		angular_velocity = satellite.get_angular_velocity();
 
 		outputer.output(
-			pos,
+			position_ECI,
 			attitude_ECI,
 			velocity_ECI,
 			angular_velocity,

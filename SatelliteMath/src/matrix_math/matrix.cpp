@@ -6,10 +6,33 @@ namespace sat_math
 {
 	Matrix::Matrix() :_m(0),_n(0) {}
 
+	Matrix::Matrix(const Matrix& m) : 
+		_m(m._m),
+		_n(m._n)
+	{
+		
+		for (int i = 0; i < m._m * m._n; i++)
+		{
+			_data[i] = m._data[i];
+		}
+	}
+
+	Matrix::Matrix(const Matrix&& m) :
+		_m(m._m),
+		_n(m._n)
+	{
+
+		for (int i = 0; i < m._m * m._n; i++)
+		{
+			_data[i] = m._data[i];
+		}
+	}
+
 	Matrix::Matrix(int M, int N) :
 		_m(M),
 		_n(N)
 	{
+
 		for (int i = 0; i < M * N; i++)
 		{
 			_data[i] = 0.0;
@@ -97,7 +120,7 @@ namespace sat_math
 		return sqrt(sum);
 	}
 
-	Matrix Matrix::multiply(const Matrix& m)
+	Matrix Matrix::multiply(const Matrix& m) const
 	{
 		Matrix res(_m, m._n);
 
@@ -119,7 +142,7 @@ namespace sat_math
 		return res;
 	}
 
-	Matrix Matrix::multiply(const double& scalar)
+	Matrix Matrix::multiply(const double& scalar) const
 	{
 		Matrix res(_m, _n);
 
@@ -148,15 +171,29 @@ namespace sat_math
 	Matrix Matrix::normalize()
 	{
 		double magnitude = (*this).magnitude();
+		if (magnitude == 0.0) return (*this);
 		return (*this) * (1 / magnitude);
 	}
 
-	Matrix Matrix::operator * (const Matrix& m)
+	Matrix Matrix::operator = (const Matrix& m)
+	{
+		_m = m._m;
+		_n = m._n;
+
+		for (int i = 0; i < m._m * m._n; i++)
+		{
+			_data[i] = m._data[i];
+		}
+
+		return *(this);
+	}
+
+	Matrix Matrix::operator * (const Matrix& m) const
 	{
 		return (*this).multiply(m);
 	}
 
-	Matrix Matrix::operator * (const double& scalar)
+	Matrix Matrix::operator * (const double& scalar) const
 	{
 		return (*this).multiply(scalar);
 	}

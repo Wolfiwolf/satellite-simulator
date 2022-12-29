@@ -64,7 +64,9 @@ namespace sat_math
 		omega(3, 2) = -wx;
 		omega(3, 3) = 0.0;
 
-		return omega * quaternion * 0.5;
+		Matrix temp = omega * (quaternion * 0.5);
+
+		return temp;
 	}
 
 }

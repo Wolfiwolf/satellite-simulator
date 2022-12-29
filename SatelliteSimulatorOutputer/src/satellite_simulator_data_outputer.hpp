@@ -3,6 +3,7 @@
 #include "satellite_math.hpp"
 #include "output_ports/output_port.hpp"
 #include <vector>
+#include <string>
 
 
 namespace satellite_simulator_data_outputer
@@ -11,7 +12,7 @@ namespace satellite_simulator_data_outputer
 	class SatelliteSimulatorDataOutputer
 	{
 	public:
-		SatelliteSimulatorDataOutputer();
+		SatelliteSimulatorDataOutputer(const std::string& output_directory, const std::string& ip_address, int port);
 		~SatelliteSimulatorDataOutputer();
 
 		void output(
