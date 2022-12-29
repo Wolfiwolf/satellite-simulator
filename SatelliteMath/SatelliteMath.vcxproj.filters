@@ -24,12 +24,18 @@
     <ClInclude Include="src\quaternion_operations\quaternion_operations.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\vector_transformations\vector_transformations.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\matrix_math\matrix.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\quaternion_operations\quaternion_operations.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\vector_transformations\vector_transformations.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

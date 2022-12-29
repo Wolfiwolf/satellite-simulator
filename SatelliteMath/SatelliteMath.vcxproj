@@ -22,10 +22,12 @@
     <ClInclude Include="src\matrix_math\matrix.hpp" />
     <ClInclude Include="src\quaternion_operations\quaternion_operations.hpp" />
     <ClInclude Include="src\satellite_math.hpp" />
+    <ClInclude Include="src\vector_transformations\vector_transformations.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\matrix_math\matrix.cpp" />
     <ClCompile Include="src\quaternion_operations\quaternion_operations.cpp" />
+    <ClCompile Include="src\vector_transformations\vector_transformations.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
