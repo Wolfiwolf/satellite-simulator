@@ -7,7 +7,7 @@ pos_y_vals = []
 pos_z_vals = []
 
 time = 0.0
-with open("./SatelliteSimulator/position_ECI.txt", "r") as fp:
+with open("./SatelliteSimulator/angular_velocity.txt", "r") as fp:
    line = fp.readline()
    while line:
         nums = line.replace('\n', '').split(' ')

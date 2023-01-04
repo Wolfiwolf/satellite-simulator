@@ -11,8 +11,9 @@ namespace satellite_simulator_engine
 	static class SpaceOperations
 	{
 	public:
-		static sat_math::Matrix get_gravity_force(const double time_since_epoch, const sat_math::Matrix& pos_ECI, const double& mass);
-		static sat_math::Matrix pos_ECI_to_magnet_field_ECI(const double time_since_epoch, const sat_math::Matrix &pos_ECI);
+		static sat_math::Matrix get_gravity_force_ECI(const double time_since_epoch, const sat_math::Matrix& pos_ECI, const double& mass);
+		static sat_math::Matrix get_magnet_field_ECI(const double time_since_epoch, const sat_math::Matrix &pos_ECI);
+		static sat_math::Matrix get_sun_direction_ECI(const double time_since_epoch, const sat_math::Matrix& pos_ECI);
 
 		static sat_math::Matrix ECI_to_ECEF(const double time_since_epoch, const sat_math::Matrix& vec_ECI);
 		static sat_math::Matrix ECEF_to_ECI(const double time_since_epoch, const sat_math::Matrix& vec_ECEF);

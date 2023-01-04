@@ -10,7 +10,7 @@ namespace satellite_simulator_engine
 	const GeographicLib::MagneticModel SpaceOperations::_magnetic_model("wmm2020");
 	const GeographicLib::Geocentric SpaceOperations::_geo = GeographicLib::Geocentric::WGS84();
 	
-	sat_math::Matrix SpaceOperations::get_gravity_force(const double time_since_epoch, const sat_math::Matrix& pos_ECI, const double& mass)
+	sat_math::Matrix SpaceOperations::get_gravity_force_ECI(const double time_since_epoch, const sat_math::Matrix& pos_ECI, const double& mass)
 	{
 		/*
 		double tempG = _G * mass;
@@ -28,7 +28,7 @@ namespace satellite_simulator_engine
 		return ECEF_to_ECI(time_since_epoch, gravity_ECEF) * mass;
 	}
 
-	sat_math::Matrix SpaceOperations::pos_ECI_to_magnet_field_ECI(const double time_since_epoch, const sat_math::Matrix& pos_ECI)
+	sat_math::Matrix SpaceOperations::get_magnet_field_ECI(const double time_since_epoch, const sat_math::Matrix& pos_ECI)
 	{
 		// Mag Field: get field at that position in ENU frame, in nanoTesla
 		sat_math::Matrix r_ECEF = ECI_to_ECEF(time_since_epoch, pos_ECI);
@@ -57,8 +57,17 @@ namespace satellite_simulator_engine
 		return B_ECI;
 	}
 
-	// convert a vector in the ECI frame to the ECEF frame
-	// the two frames are identical when t = 0
+	sat_math::Matrix SpaceOperations::get_sun_direction_ECI(const double time_since_epoch, const sat_math::Matrix& pos_ECI)
+	{
+		sat_math::Matrix sun(3, 1);
+
+		sun(0, 0) = 1.0;
+		sun(1, 0) = 0.0;
+		sun(2, 0) = 0.0;
+
+		return sun;
+	}
+
 	sat_math::Matrix SpaceOperations::ECI_to_ECEF(const double time_since_epoch, const sat_math::Matrix& vec_ECI) {
 		double yaw = time_since_epoch * _OMEGA;
 		double sin_yaw = sin(yaw), cos_yaw = cos(yaw);
@@ -71,8 +80,7 @@ namespace satellite_simulator_engine
 		return ecef;
 	}
 
-	// convert a vector in the ECEF frame to the ECI frame
-	// the two frames are identical when t = 0
+
 	sat_math::Matrix SpaceOperations::ECEF_to_ECI(const double time_since_epoch, const sat_math::Matrix& vec_ECEF) {
 		double yaw = time_since_epoch * _OMEGA;
 		double sin_yaw = sin(yaw), cos_yaw = cos(yaw);

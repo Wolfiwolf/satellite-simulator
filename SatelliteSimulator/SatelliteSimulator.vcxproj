@@ -152,6 +152,7 @@
   <ItemGroup>
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\satellite\satellite.cpp" />
+    <ClCompile Include="src\simulation_config\simulator_config.cpp" />
     <ClCompile Include="src\space_operations\space_operations.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -164,6 +165,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\satellite\satellite.hpp" />
+    <ClInclude Include="src\simulation_config\simulator_config.hpp" />
     <ClInclude Include="src\space_operations\space_operations.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

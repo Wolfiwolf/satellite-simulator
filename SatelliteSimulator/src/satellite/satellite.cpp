@@ -42,9 +42,13 @@ namespace satellite_simulator_engine
 
 
 		_angular_velocity = sat_math::Matrix( 3, 1 );
-		_angular_velocity(0, 0) = 0.08;
-		_angular_velocity(1, 0) = 0.05;
-		_angular_velocity(2, 0) = 0.001;
+		_angular_velocity(0, 0) = 0.04;
+		_angular_velocity(1, 0) = 0.02;
+		_angular_velocity(2, 0) = 0.005;
+
+		_sun_dir_body = sat_math::Matrix(3, 1);
+
+		_magnet_field_dir_body = sat_math::Matrix(3, 1);
 
 		_magnetorquers = sat_math::Matrix( 3, 1 );
 
@@ -70,12 +74,26 @@ namespace satellite_simulator_engine
 		return _angular_velocity;
 	}
 
+	const sat_math::Matrix& Satellite::get_sun_dir_body() const
+	{
+		return _sun_dir_body;
+	}
+
+	const sat_math::Matrix& Satellite::get_magnet_field_dir_body() const
+	{
+		return _magnet_field_dir_body;
+	}
+
 	bool Satellite::update_state(const double time_since_epoch, const double delta_time)
 	{
 		_update_velocity(time_since_epoch, delta_time);
 		_update_angular_velocity(time_since_epoch, delta_time);
 		_update_attitude(delta_time);
 		_update_position(delta_time);
+
+		_update_sun_dir_body(delta_time);
+		_update_magnet_field_dir_body(delta_time);
+		
 
 		return true;
 	}
@@ -96,7 +114,7 @@ namespace satellite_simulator_engine
 
 		double r = _position_ECI.magnitude();
 
-		sat_math::Matrix gravity_force = SpaceOperations::get_gravity_force(time_since_epoch, _position_ECI, _mass);
+		sat_math::Matrix gravity_force = SpaceOperations::get_gravity_force_ECI(time_since_epoch, _position_ECI, _mass);
 
 		forces = forces + gravity_force;
 
@@ -117,18 +135,26 @@ namespace satellite_simulator_engine
 
 	void Satellite::_update_angular_velocity(const double time_since_epoch, const double delta_time)
 	{
-		sat_math::Matrix B_ECI = SpaceOperations::pos_ECI_to_magnet_field_ECI(time_since_epoch, _position_ECI);
-
-		sat_math::Matrix B_body = B_ECI;
-
-
 		sat_math::Matrix M(3, 1);
+
+		_magnetorquers = _magnet_field_dir_body.cross(_angular_velocity) * -300000;
 		
-		M = _magnetorquers.cross(B_body);
+		M = _magnetorquers.cross(_magnet_field_dir_body);
 
 		// TODO: ADD GRAVITY GRADIENT MOMENTS
 
 		_angular_velocity = _angular_velocity +  ((_I_inverse * (M - _angular_velocity.cross(_I * _angular_velocity))) * delta_time);
 	}
 
+	void Satellite::_update_sun_dir_body(const double time_since_epoch, const double delta_time)
+	{
+		sat_math::Matrix sun_dir_ECI = SpaceOperations::get_sun_direction_ECI(time_since_epoch, _position_ECI);
+		_sun_dir_body = sat_math::VectorTransformations::ECI_to_body(sun_dir_ECI, _attitude_ECI);
+	}
+
+	void Satellite::_update_magnet_field_dir_body(const double time_since_epoch, const double delta_time)
+	{
+		sat_math::Matrix B_ECI = SpaceOperations::get_magnet_field_ECI(time_since_epoch, _position_ECI);
+		_magnet_field_dir_body = sat_math::VectorTransformations::ECI_to_body(B_ECI, _attitude_ECI);
+	}
 }

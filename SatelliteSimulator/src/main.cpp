@@ -2,11 +2,24 @@
 #include "satellite_math.hpp";
 #include "satellite/satellite.hpp"
 #include "satellite_simulator_data_outputer.hpp"
+#include "simulation_config/simulator_config.hpp"
 
 int main(int argc, char *argv[])
 {
+	satellite_simulator_engine::SimulatorConfig::load_data_from_file();
+
+	std::cout << satellite_simulator_engine::SimulatorConfig::get_timestep() << "\n";
+	std::cout << satellite_simulator_engine::SimulatorConfig::get_output_folder() << "\n";
+	std::cout << satellite_simulator_engine::SimulatorConfig::get_output_ip_address() << "\n";
+	std::cout << satellite_simulator_engine::SimulatorConfig::get_output_port() << "\n";
+
+
 	satellite_simulator_engine::Satellite satellite;
-	satellite_simulator_data_outputer::SatelliteSimulatorDataOutputer outputer(argv[1], argv[2], std::stoi(argv[3]));
+	satellite_simulator_data_outputer::SatelliteSimulatorDataOutputer outputer(
+		satellite_simulator_engine::SimulatorConfig::get_output_folder(),
+		satellite_simulator_engine::SimulatorConfig::get_output_ip_address(),
+		satellite_simulator_engine::SimulatorConfig::get_output_port()
+	);
 
 	sat_math::Matrix position_ECI(3, 1);
 	sat_math::Matrix attitude_ECI(4, 1);
@@ -20,7 +33,7 @@ int main(int argc, char *argv[])
 
 
 	double time = 0.0;
-	const double delta_time = 0.5;
+	const double delta_time = satellite_simulator_engine::SimulatorConfig::get_timestep();
 	while (true)
 	{
 		bool is_ok = satellite.update_state(time, delta_time);
