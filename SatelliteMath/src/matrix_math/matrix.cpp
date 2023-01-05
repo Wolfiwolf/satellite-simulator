@@ -159,8 +159,6 @@ namespace sat_math
 	{
 		Matrix res(_m, _n);
 
-		double temp = m(2, 0);
-
 		res(0, 0) = (*this)(1, 0) * m(2, 0) - (*this)(2, 0) * m(1, 0);
 		res(1, 0) = (*this)(2, 0) * m(0, 0) - (*this)(0, 0) * m(2, 0);
 		res(2, 0) = (*this)(0, 0) * m(1, 0) - (*this)(1, 0) * m(0, 0);

@@ -32,13 +32,13 @@ int main(int argc, char *argv[])
 
 
 
+	// double time = 1578178297.0;
 	double time = 0.0;
 	const double delta_time = satellite_simulator_engine::SimulatorConfig::get_timestep();
 	while (true)
 	{
 		bool is_ok = satellite.update_state(time, delta_time);
 
-		
 		if (!is_ok)
 		{
 			int delta_time_devider = 2;
@@ -66,16 +66,16 @@ int main(int argc, char *argv[])
 		position_ECI = satellite.get_ECI_position();
 		attitude_ECI = satellite.get_ECI_attitude();
 		angular_velocity = satellite.get_angular_velocity();
+		sun_dir_body = satellite.get_sun_dir_body();
+		magnet_field_body = satellite.get_magnet_field_dir_body();
 
 		outputer.output(
 			position_ECI,
 			attitude_ECI,
 			velocity_ECI,
 			angular_velocity,
-			magnet_field_ECI,
-			magnet_field_body,
-			sun_dir_ECI,
-			sun_dir_body
+			sun_dir_body,
+			magnet_field_body
 		);
 
 		time += delta_time;

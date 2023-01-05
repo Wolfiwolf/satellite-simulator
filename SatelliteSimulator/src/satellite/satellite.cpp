@@ -31,19 +31,17 @@ namespace satellite_simulator_engine
 		_attitude_ECI(2, 0) = 0.0;
 		_attitude_ECI(3, 0) = 0.0;
 
-		double speed = 5714.0;
+		double speed = -5708.0;
 
 		_velocity_ECI = sat_math::Matrix( 3, 1 );
 		_velocity_ECI(0, 0) = 0.0;
-		_velocity_ECI(1, 0) = 1.0;
+		_velocity_ECI(1, 0) = speed;
 		_velocity_ECI(2, 0) = 0.0;
-
-		_velocity_ECI = _velocity_ECI.normalize() * speed;
 
 
 		_angular_velocity = sat_math::Matrix( 3, 1 );
-		_angular_velocity(0, 0) = 0.04;
-		_angular_velocity(1, 0) = 0.02;
+		_angular_velocity(0, 0) = 0.004;
+		_angular_velocity(1, 0) = 0.002;
 		_angular_velocity(2, 0) = 0.005;
 
 		_sun_dir_body = sat_math::Matrix(3, 1);
@@ -91,8 +89,8 @@ namespace satellite_simulator_engine
 		_update_attitude(delta_time);
 		_update_position(delta_time);
 
-		_update_sun_dir_body(delta_time);
-		_update_magnet_field_dir_body(delta_time);
+		_update_sun_dir_body(time_since_epoch, delta_time);
+		_update_magnet_field_dir_body(time_since_epoch, delta_time);
 		
 
 		return true;

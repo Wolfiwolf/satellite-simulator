@@ -5,18 +5,13 @@
 namespace satellite_simulator_engine
 {
 	const unsigned long long int SpaceOperations::_G = 398589200000000;
-	const unsigned long long int SpaceOperations::_OMEGA = 398589200000000;
+	const double SpaceOperations::_OMEGA = 7.29211509e-5;
 	const GeographicLib::GravityModel SpaceOperations::_gravity_model("wgs84");
 	const GeographicLib::MagneticModel SpaceOperations::_magnetic_model("wmm2020");
 	const GeographicLib::Geocentric SpaceOperations::_geo = GeographicLib::Geocentric::WGS84();
 	
 	sat_math::Matrix SpaceOperations::get_gravity_force_ECI(const double time_since_epoch, const sat_math::Matrix& pos_ECI, const double& mass)
 	{
-		/*
-		double tempG = _G * mass;
-		double tempr = r * r;
-		return tempG / tempr;
-		*/
 		// position ECI -> ECEF
 		sat_math::Matrix pos_ecef = ECI_to_ECEF(time_since_epoch, pos_ECI);
 
@@ -33,16 +28,16 @@ namespace satellite_simulator_engine
 		// Mag Field: get field at that position in ENU frame, in nanoTesla
 		sat_math::Matrix r_ECEF = ECI_to_ECEF(time_since_epoch, pos_ECI);
 
-
 		// Position: ECEF -> WGS84
-		double lat = 0.0, lon = 0.0, h = 0.0;
+		double lat, lon, h;
 
 		_geo.Reverse(r_ECEF(0, 0), r_ECEF(1, 0), r_ECEF(2, 0), lat, lon, h);
 
 
 		// Mag Field: get field at that position in ENU frame, in nanoTesla
 		sat_math::Matrix B_ENU(3, 1);
-		_magnetic_model(2016, lat, lon, h, B_ENU(0, 0), B_ENU(1, 0), B_ENU(2, 0));
+		_magnetic_model(2020, lat, lon, h, B_ENU(0, 0), B_ENU(1, 0), B_ENU(2, 0));
+		
 
 		// Mag Field: convert to Tesla
 		B_ENU = B_ENU * 1e-9;
@@ -59,13 +54,30 @@ namespace satellite_simulator_engine
 
 	sat_math::Matrix SpaceOperations::get_sun_direction_ECI(const double time_since_epoch, const sat_math::Matrix& pos_ECI)
 	{
-		sat_math::Matrix sun(3, 1);
+		sat_math::Matrix sun_ECI(3, 1);
 
-		sun(0, 0) = 1.0;
-		sun(1, 0) = 0.0;
-		sun(2, 0) = 0.0;
 
-		return sun;
+		int day_in_year = ((int)(time_since_epoch) / 86400) % 365;
+
+		double L = 280.4606184 + (36000.77005361 / 36525) * day_in_year;
+
+		double g = 357.5277233 + ((35999.05034 / 36525) * day_in_year);
+
+		constexpr double PI = 3.14159265358979323846;
+		double p = L + (1.914666471 * sin(g * PI / 180)) + 0.918994643 * sin(2 * g * PI / 180);
+
+		double q = 23.43929 - ((46.8093 / 3600) * (day_in_year / 36525));
+
+		double x = cos(p * PI / 180);
+		double y = cos(q * PI / 180) * sin(p * PI / 180);
+		double z = sin(q * PI / 180) * sin(p * PI / 180);
+
+
+		sun_ECI(0, 0) = x;
+		sun_ECI(1, 0) = y;
+		sun_ECI(2, 0) = z;
+
+		return sun_ECI;
 	}
 
 	sat_math::Matrix SpaceOperations::ECI_to_ECEF(const double time_since_epoch, const sat_math::Matrix& vec_ECI) {

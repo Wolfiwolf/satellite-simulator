@@ -19,10 +19,9 @@ namespace satellite_simulator_data_outputer
 			const sat_math::Matrix& attitude_ECI,
 			const sat_math::Matrix& velocity_ECI,
 			const sat_math::Matrix& angular_velocity,
-			const sat_math::Matrix& magnet_field_ECI,
-			const sat_math::Matrix& magnet_field_body,
-			const sat_math::Matrix& sun_dir_ECI,
-			const sat_math::Matrix& sun_dir_body);
+			const sat_math::Matrix& sun_dir_body,
+			const sat_math::Matrix& magnet_field_body
+		);
 
 	private:
 		std::unordered_map<const char*, std::ofstream> _output_files;

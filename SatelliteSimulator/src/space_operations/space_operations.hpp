@@ -21,7 +21,7 @@ namespace satellite_simulator_engine
 
 	private:
 		static const unsigned long long int _G;
-		static const unsigned long long int _OMEGA;
+		static const double _OMEGA;
 		static const GeographicLib::GravityModel _gravity_model;
 		static const GeographicLib::MagneticModel _magnetic_model;
 		static const GeographicLib::Geocentric _geo;

@@ -44,22 +44,18 @@ namespace satellite_simulator_data_outputer
 		const sat_math::Matrix& attitude_ECI,
 		const sat_math::Matrix& velocity_ECI,
 		const sat_math::Matrix& angular_velocity,
-		const sat_math::Matrix& magnet_field_ECI,
-		const sat_math::Matrix& magnet_field_body,
-		const sat_math::Matrix& sun_dir_ECI,
-		const sat_math::Matrix& sun_dir_body
+		const sat_math::Matrix& sun_dir_body,
+		const sat_math::Matrix& magnet_field_body
 	)
 	{
-        char package[128];
+        char package[512];
         int size_of_package = prepare_package(
             position_ECI,
             attitude_ECI,
             velocity_ECI,
             angular_velocity,
-            magnet_field_ECI,
-            magnet_field_body,
-            sun_dir_ECI,
             sun_dir_body, 
+            magnet_field_body,
             package
         );
         
@@ -73,10 +69,8 @@ namespace satellite_simulator_data_outputer
         const sat_math::Matrix& attitude_ECI,
         const sat_math::Matrix& velocity_ECI,
         const sat_math::Matrix& angular_velocity,
-        const sat_math::Matrix& magnet_field_ECI,
-        const sat_math::Matrix& magnet_field_body,
-        const sat_math::Matrix& sun_dir_ECI,
         const sat_math::Matrix& sun_dir_body,
+        const sat_math::Matrix& magnet_field_body,
         char* package
     )
     {
@@ -95,6 +89,42 @@ namespace satellite_simulator_data_outputer
         memcpy(package + offset, &attitude_ECI(2, 0), 8);
         offset += 8;
         memcpy(package + offset, &attitude_ECI(3, 0), 8);
+        offset += 8;
+
+        memcpy(package + offset, &velocity_ECI(0, 0), 8);
+        offset += 8;
+        memcpy(package + offset, &velocity_ECI(1, 0), 8);
+        offset += 8;
+        memcpy(package + offset, &velocity_ECI(2, 0), 8);
+        offset += 8;
+
+        memcpy(package + offset, &angular_velocity(0, 0), 8);
+        offset += 8;
+        memcpy(package + offset, &angular_velocity(1, 0), 8);
+        offset += 8;
+        memcpy(package + offset, &angular_velocity(2, 0), 8);
+        offset += 8;
+
+        memcpy(package + offset, &sun_dir_body(0, 0), 8);
+        offset += 8;
+        memcpy(package + offset, &sun_dir_body(1, 0), 8);
+        offset += 8;
+        memcpy(package + offset, &sun_dir_body(2, 0), 8);
+        offset += 8;
+
+        memcpy(package + offset, &magnet_field_body(0, 0), 8);
+        offset += 8;
+        memcpy(package + offset, &magnet_field_body(1, 0), 8);
+        offset += 8;
+        memcpy(package + offset, &magnet_field_body(2, 0), 8);
+        offset += 8;
+
+        sat_math::Matrix euler = sat_math::QuaternionOperations::quaternion_to_euler_angles_ZYX(attitude_ECI);
+        memcpy(package + offset, &euler(0, 0), 8);
+        offset += 8;
+        memcpy(package + offset, &euler(1, 0), 8);
+        offset += 8;
+        memcpy(package + offset, &euler(2, 0), 8);
         offset += 8;
 
         return offset;
